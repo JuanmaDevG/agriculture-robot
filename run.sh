@@ -14,7 +14,9 @@ sleep 3 && \
 
 docker run --rm -it -e DISPLAY=${DISPLAY} \
         -v /tmp/.X11-unix:/tmp/.X11-unix:rw --network host \
+        --device /dev/dri:/dev/dri \
         --workdir="/workspace" \
         --volume="$PWD:/workspace:rw" -e "TERM=xterm-256color" \
+        -e QT_X11_NO_MITSHM=1 \
         --name $containerName \
         ros_humble:latest bash

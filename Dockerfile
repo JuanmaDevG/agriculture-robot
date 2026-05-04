@@ -57,6 +57,7 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/r
 RUN sudo apt-get update && sudo apt-get upgrade -y
 
 RUN sudo apt-get install ros-humble-desktop -y
+RUN sudo apt-get install ros-humble-gazebo-ros-pkgs -y
 
 RUN sudo apt-get install ros-humble-turtlebot4-simulator ros-humble-irobot-create-nodes ros-humble-turtlebot4-navigation -y
 

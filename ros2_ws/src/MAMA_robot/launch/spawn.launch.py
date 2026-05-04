@@ -5,11 +5,14 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
+
 def generate_launch_description():
     package_name = 'MAMA_robot'
 
     # Path to the URDF file
     urdf_file = os.path.join(get_package_share_directory(package_name), 'urdf', 'robot.urdf')
+    with open(urdf_file, 'r', encoding='utf-8') as infp:
+        robot_description = infp.read()
 
     # 1. Include the Gazebo launch file
     gazebo = IncludeLaunchDescription(
@@ -21,7 +24,7 @@ def generate_launch_description():
     spawn_entity = Node(
         package='gazebo_ros',
         executable='spawn_entity.py',
-        arguments=['-topic', 'robot_description', '-entity', 'MAMA_robot'],
+        arguments=['-topic', 'robot_description', '-entity', 'MAMA_robot', '-x', '0.0', '-y', '0.0', '-z', '0.5'],
         output='screen'
     )
 
@@ -30,7 +33,7 @@ def generate_launch_description():
         package='robot_state_publisher',
         executable='robot_state_publisher',
         output='screen',
-        arguments=[urdf_file]
+        parameters=[{'robot_description': robot_description}]
     )
 
     return LaunchDescription([

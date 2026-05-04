@@ -23,18 +23,25 @@ class IrrigationPatternNode(Node):
         self.y = 0.0
         self.yaw = 0.0
 
+        turn_speed = 0.6
+        quarter_turn_duration = (math.pi / 2.0) / turn_speed
+
         self.phases = [
-            ('forward', 4.0, 0.12, 0.0),
+            ('straight_1', 6.0, 0.12, 0.0),
             ('pause', 1.2, 0.0, 0.0),
-            ('forward', 4.0, 0.12, 0.0),
+            ('turn_right_1', quarter_turn_duration, 0.0, -turn_speed),
+            ('shift_1', 1.5, 0.10, 0.0),
+            ('turn_right_2', quarter_turn_duration, 0.0, -turn_speed),
+            ('straight_2', 6.0, 0.12, 0.0),
             ('pause', 1.2, 0.0, 0.0),
-            ('half_turn', math.pi / 0.6, 0.0, 0.6),
-            ('pause', 1.0, 0.0, 0.0),
+            ('turn_left_1', quarter_turn_duration, 0.0, turn_speed),
+            ('shift_2', 1.5, 0.10, 0.0),
+            ('turn_left_2', quarter_turn_duration, 0.0, turn_speed),
         ]
         self.phase_index = 0
         self.phase_elapsed = 0.0
 
-        self.get_logger().info('Irrigation pattern started: advance-stop-advance-stop-half-turn loop.')
+        self.get_logger().info('Irrigation pattern started: straight lane, edge turn, short offset, edge turn, repeat.')
 
     def on_timer(self):
         """Advance the pose and publish TF, odometry and the current command."""

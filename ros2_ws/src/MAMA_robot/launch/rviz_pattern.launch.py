@@ -29,6 +29,11 @@ def generate_launch_description():
             output='screen',
         ),
         Node(
+            package='MAMA_robot',
+            executable='ground_plane',
+            output='screen',
+        ),
+        Node(
             package='rviz2',
             executable='rviz2',
             output='screen',

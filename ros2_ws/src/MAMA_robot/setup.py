@@ -24,6 +24,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'ground_plane = MAMA_robot.ground_plane:main',
             'irrigation_pattern = MAMA_robot.irrigation_pattern:main',
         ],
     },
